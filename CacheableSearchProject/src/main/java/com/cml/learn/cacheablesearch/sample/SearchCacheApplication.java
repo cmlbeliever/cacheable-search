@@ -12,9 +12,9 @@ import com.cml.learn.cacheablesearch.configuration.EnableSearchCacheAutoConfigur
 @EnableAspectJAutoProxy
 @PropertySource("classpath:/config/common.properties")
 @SpringBootApplication()
-public class Application {
+public class SearchCacheApplication {
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(SearchCacheApplication.class, args);
 	}
 
 }

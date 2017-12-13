@@ -78,7 +78,7 @@ public class SearchCacheAspect implements BeanFactoryAware {
 			}
 		}
 
-		Object value = point.proceed();
+		Object value = point.proceed(args);
 
 		return value;
 	}

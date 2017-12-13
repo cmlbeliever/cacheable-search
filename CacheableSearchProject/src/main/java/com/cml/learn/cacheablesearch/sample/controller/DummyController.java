@@ -1,7 +1,5 @@
 package com.cml.learn.cacheablesearch.sample.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +12,7 @@ import com.cml.learn.cacheablesearch.sample.model.User;
 public class DummyController {
 
 	@RequestMapping("/testPage")
-	public String testPage(Model model, @SearchCache() User u, HttpServletRequest req) {
+	public String testPage(Model model, @SearchCache() User u) {
 		model.addAttribute("key", "from server:" + u);
 		System.out.println("testPage==>");
 		return "dummy";
