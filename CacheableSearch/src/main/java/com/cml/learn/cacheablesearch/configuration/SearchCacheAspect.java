@@ -2,7 +2,6 @@ package com.cml.learn.cacheablesearch.configuration;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 

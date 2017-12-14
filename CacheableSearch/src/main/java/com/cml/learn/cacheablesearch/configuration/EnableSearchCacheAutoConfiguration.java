@@ -1,6 +1,5 @@
 package com.cml.learn.cacheablesearch.configuration;
 
-import org.apache.catalina.SessionListener;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
