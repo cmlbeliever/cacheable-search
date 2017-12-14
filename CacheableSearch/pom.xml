@@ -21,6 +21,12 @@
 	</parent>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
