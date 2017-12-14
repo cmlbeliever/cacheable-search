@@ -14,10 +14,10 @@ import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 /**
  * 搜索条件缓存
  * <p>
- * 如果请求key对应的参数值为空，则表示没有缓存，会将对应的对象保存到缓存中，并且将生产的key保存到Model对象中（如果有此参数），key为请求key，默认为"cacheToken"
+ * 如果请求key对应的参数值为空，则表示没有缓存，会将对应的对象保存到缓存中，并且将生产的key保存到request的attribute中，key为请求key，默认为"cacheToken"
  * </p>
  * <p>
- * 如果请求中缓存key对应的值不为空，则会根据参数值获取缓存中的值，并赋值到添加了此注解的对象上
+ * 如果请求中缓存key对应的值不为空，则会根据参数值获取缓存中的值
  * </p>
  * 
  * @author cml
@@ -27,14 +27,14 @@ import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 @Target(ElementType.PARAMETER)
 @Documented
 public @interface SearchCache {
-	Class<? extends ISearchCache> cacheImpl() default SessionSearchCache.class;
+	String cacheImplRef() default "";
 
-	Class<? extends KeyGenerator> keyGenerator() default UUIDKeyGenerator.class;
+	String keyGeneratorRef() default "";
 
 	/**
-	 * 请求key
+	 * 请求key,默认为cacheToken
 	 * 
 	 * @return
 	 */
-	String value() default "cacheToken";
+	String value() default "";
 }

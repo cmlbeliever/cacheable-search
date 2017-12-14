@@ -18,8 +18,8 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
+import com.cml.learn.cacheablesearch.configuration.CacheableSearchParamResolver;
 import com.cml.learn.cacheablesearch.sample.framework.deserializer.DateTimeDeserializer;
-import com.cml.learn.cacheablesearch.sample.framework.mvc.CacheableSearchParamResolver;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +38,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements Initializin
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(argumentResolver());
-		System.out.println("===>argumentResolvers:" + argumentResolvers);
 		super.addArgumentResolvers(argumentResolvers);
 	}
 
