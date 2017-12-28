@@ -1,7 +1,5 @@
 package com.cml.learn.cacheablesearch.sample.framework;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -19,7 +16,6 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import com.cml.learn.cacheablesearch.sample.framework.deserializer.DateTimeDeserializer;
-import com.cml.learn.cacheablesearch.sample.framework.mvc.CacheableSearchParamResolver;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,18 +29,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements Initializin
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println(requestAdapter.getArgumentResolvers());
-	}
-
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(argumentResolver());
-		System.out.println("===>argumentResolvers:" + argumentResolvers);
-		super.addArgumentResolvers(argumentResolvers);
-	}
-
-	@Bean
-	public CacheableSearchParamResolver argumentResolver() {
-		return new CacheableSearchParamResolver();
 	}
 
 	/**
