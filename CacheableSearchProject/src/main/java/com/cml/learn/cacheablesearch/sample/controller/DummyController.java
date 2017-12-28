@@ -13,7 +13,7 @@ public class DummyController {
 
 	@RequestMapping("/testPage")
 	public String testPage(Model model, @SearchCache() User u) {
-		model.addAttribute("key", "from server:" + u);
+		model.addAttribute("key", "searchParam:" + u);
 		System.out.println("testPage==>");
 		return "dummy";
 	}

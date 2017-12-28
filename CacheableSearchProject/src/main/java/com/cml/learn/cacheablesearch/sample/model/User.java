@@ -2,6 +2,7 @@ package com.cml.learn.cacheablesearch.sample.model;
 
 public class User {
 	private int age;
+	// ....其他属性
 
 	public int getAge() {
 		return age;
