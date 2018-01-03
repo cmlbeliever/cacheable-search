@@ -14,7 +14,6 @@ public class DummyController {
 	@RequestMapping("/testPage")
 	public String testPage(Model model, @SearchCache() User u) {
 		model.addAttribute("key", "from server:" + u);
-		System.out.println("testPage==>");
 		return "dummy";
 	}
 }

@@ -3,20 +3,11 @@ package com.cml.learn.cacheablesearch.sample.framework;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
 
 import com.cml.learn.cacheablesearch.configuration.CacheableSearchParamResolver;
 import com.cml.learn.cacheablesearch.sample.framework.deserializer.DateTimeDeserializer;
@@ -26,14 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter implements InitializingBean {
-	@Autowired
-	private RequestMappingHandlerAdapter requestAdapter;
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		System.out.println(requestAdapter.getArgumentResolvers());
-	}
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -44,45 +28,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements Initializin
 	@Bean
 	public CacheableSearchParamResolver argumentResolver() {
 		return new CacheableSearchParamResolver();
-	}
-
-	/**
-	 * 设置视图解析器
-	 * 
-	 * @param templateEngine
-	 * @return
-	 */
-	@Bean
-	public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine);
-		return resolver;
-	}
-
-	/**
-	 * 设置模板引擎
-	 * 
-	 * @param templateResolver
-	 * @return
-	 */
-	@Bean
-	public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver);
-		return engine;
-	}
-
-	/**
-	 * 模板解析引擎
-	 * 
-	 * @return
-	 */
-	@Bean
-	@ConfigurationProperties(prefix = "spring.thymeleaf")
-	public TemplateResolver templateResolver() {
-		TemplateResolver resolver = new SpringResourceTemplateResolver();
-		return resolver;
-
 	}
 
 	@Bean
