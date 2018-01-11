@@ -1,18 +1,34 @@
 package com.cml.learn.cacheablesearch.configuration;
 
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.cml.learn.cacheablesearch.argumentresolver.CacheableSearchParamResolver;
 import com.cml.learn.cacheablesearch.cache.SessionSearchCache;
 import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 
 @Configuration
-public class EnableSearchCacheAutoConfiguration {
+public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter {
 
 	public static final String DEFAULT_KEY_GENERATE_REF = "defaultUUIDKeyGenerator";
 	public static final String DEFAULT_SEARCCH_CACHE_REF = "defaultISearchCache";
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(argumentResolver());
+		super.addArgumentResolvers(argumentResolvers);
+	}
+
+	@Bean
+	public CacheableSearchParamResolver argumentResolver() {
+		return new CacheableSearchParamResolver();
+	}
 
 	@Bean(name = DEFAULT_KEY_GENERATE_REF)
 	public UUIDKeyGenerator uuidKeyGenerate() {
