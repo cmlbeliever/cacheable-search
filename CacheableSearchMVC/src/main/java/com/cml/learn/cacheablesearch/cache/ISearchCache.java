@@ -11,4 +11,9 @@ public interface ISearchCache {
 
 	Object get(String key);
 
+	/**
+	 * 清除缓存
+	 */
+	void clear(String key);
+
 }
