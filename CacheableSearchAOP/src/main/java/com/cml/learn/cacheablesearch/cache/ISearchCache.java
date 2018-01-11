@@ -11,4 +11,5 @@ public interface ISearchCache {
 
 	Object get(String key);
 
+	void clear(String key);
 }

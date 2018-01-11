@@ -48,7 +48,8 @@ public class SessionSearchCache implements ISearchCache {
 		return null;
 	}
 
-	protected void remove(String key) {
+	@Override
+	public void clear(String key) {
 		cacheContainer.remove(key);
 	}
 
@@ -67,7 +68,7 @@ public class SessionSearchCache implements ISearchCache {
 
 		@Override
 		public void sessionDestroyed(HttpSessionEvent se) {
-			sessionCache.remove(se.getSession().getId());
+			sessionCache.clear(se.getSession().getId());
 		}
 
 	}
