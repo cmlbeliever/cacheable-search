@@ -71,10 +71,13 @@ public class SearchCacheAspect implements BeanFactoryAware {
 				Object value = args[searchCachePutHolder.paramIndex];
 				searchCache.put(cacheKey, value);
 			}
+			// 如果有model参数，将缓存的key存放到model中
 			Model model = retrieveParam(point, Model.class);
 			if (null != model) {
 				model.addAttribute(cacheTokenKey, cacheKey);
 			}
+			// 将缓存的key存放到request中
+			request.setAttribute(cacheTokenKey, cacheKey);
 		}
 
 		Object value = point.proceed(args);
