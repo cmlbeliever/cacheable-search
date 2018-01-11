@@ -9,7 +9,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.cml.learn.cacheablesearch.configuration.CacheableSearchParamResolver;
+import com.cml.learn.cacheablesearch.argumentresolver.CacheableSearchParamResolver;
 import com.cml.learn.cacheablesearch.sample.framework.deserializer.DateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;

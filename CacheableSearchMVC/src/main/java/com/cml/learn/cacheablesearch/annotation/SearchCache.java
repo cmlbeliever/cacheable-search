@@ -6,11 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.cml.learn.cacheablesearch.cache.ISearchCache;
-import com.cml.learn.cacheablesearch.cache.SessionSearchCache;
-import com.cml.learn.cacheablesearch.key.KeyGenerator;
-import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
-
 /**
  * 搜索条件缓存
  * <p>

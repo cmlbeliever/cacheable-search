@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cml.learn</groupId>
-	<artifactId>cacheable-search-sample</artifactId>
+	<artifactId>cacheable-search-aop-sample</artifactId>
 	<version>1.0</version>
 	<properties>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>

@@ -1,7 +1,9 @@
-package com.cml.learn.cacheablesearch.sample.controller;
+package com.cml.learn.cacheablesearch.sample.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import com.cml.learn.cacheablesearch.sample.model.CacheableParam;
 
 public class QueryParamCacheStoreUtil {
 

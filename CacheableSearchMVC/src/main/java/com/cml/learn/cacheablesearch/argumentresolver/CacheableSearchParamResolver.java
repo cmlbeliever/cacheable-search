@@ -1,24 +1,29 @@
-package com.cml.learn.cacheablesearch.configuration;
+package com.cml.learn.cacheablesearch.argumentresolver;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
 import com.cml.learn.cacheablesearch.annotation.SearchCache;
 import com.cml.learn.cacheablesearch.cache.ISearchCache;
+import com.cml.learn.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration;
 import com.cml.learn.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration.SearchCacheProperties;
 import com.cml.learn.cacheablesearch.key.KeyGenerator;
 
@@ -31,11 +36,15 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	@Autowired(required = false)
 	private SearchCacheProperties defaultConfig;
 
+	/**
+	 * 参数处理器
+	 */
+	private List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
+
 	private BeanFactory beanFactory;
-	private ServletModelAttributeMethodProcessor defaultResolver;
 
 	public CacheableSearchParamResolver() {
-		defaultResolver = new ServletModelAttributeMethodProcessor(true);
+		argumentResolvers.add(new ServletModelAttributeMethodProcessor(true));
 	}
 
 	@Override
@@ -66,7 +75,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		}
 
 		// 缓存中没有数据,根据参数生成数据
-		Object value = defaultResolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+		Object value = resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
 
 		KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
 
@@ -76,6 +85,26 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		searchCacheResolver.put(key, value);
 		webRequest.setAttribute(cacheTokenKey, key, NativeWebRequest.SCOPE_REQUEST);
 		return value;
+	}
+
+	/**
+	 * 获取参数中的数据
+	 * 
+	 * @param parameter
+	 * @param mavContainer
+	 * @param webRequest
+	 * @param binderFactory
+	 * @return
+	 * @throws Exception
+	 */
+	private Object resolveRequestArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
+			WebDataBinderFactory binderFactory) throws Exception {
+		for (HandlerMethodArgumentResolver resolver : argumentResolvers) {
+			if (resolver.supportsParameter(parameter)) {
+				return resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+			}
+		}
+		return null;
 	}
 
 	private String getCacheTokenKey(SearchCache config) {
@@ -114,6 +143,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
+		argumentResolvers.add(new RequestParamMethodArgumentResolver((ConfigurableBeanFactory) beanFactory, true));
 	}
 
 	@Override

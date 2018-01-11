@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.sample.controller;
+package com.cml.learn.cacheablesearch.sample.model;
 
 public abstract class CacheableParam {
 	private String cacheKey;
