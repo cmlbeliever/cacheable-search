@@ -30,6 +30,15 @@ public class EnableSearchCacheAutoConfiguration {
 		private String cacheImplRef;
 		private String keyGeneratorRef;
 		private String cacheToken;
+		private String argumentResolvers;
+
+		public String getArgumentResolvers() {
+			return argumentResolvers;
+		}
+
+		public void setArgumentResolvers(String argumentResolvers) {
+			this.argumentResolvers = argumentResolvers;
+		}
 
 		public String getCacheImplRef() {
 			return cacheImplRef;

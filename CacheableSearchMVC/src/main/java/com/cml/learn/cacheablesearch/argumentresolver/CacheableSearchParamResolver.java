@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -165,6 +166,24 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		Assert.notNull(defaultKeyGenerator, "keyGenerator must not be null!!!");
 		if (StringUtils.hasText(defaultConfig.getCacheToken())) {
 			defaultCacheToken = defaultConfig.getCacheToken();
+		}
+
+		handleCustomArgumentResolver();
+	}
+
+	/**
+	 * 用户自定义参数处理，会优先于默认参数处理
+	 */
+	private void handleCustomArgumentResolver() {
+		if (defaultConfig.getArgumentResolvers() != null) {
+			String[] resolverRefs = defaultConfig.getArgumentResolvers().split(",");
+			for (String resolverRef : resolverRefs) {
+				if (StringUtils.isEmpty(resolverRef)) {
+					throw new IllegalArgumentException("custom argumentResovlerRef can not be empty!!!");
+				}
+				HandlerMethodArgumentResolver resolver = beanFactory.getBean(resolverRef, HandlerMethodArgumentResolver.class);
+				argumentResolvers.add(0, resolver);
+			}
 		}
 	}
 
