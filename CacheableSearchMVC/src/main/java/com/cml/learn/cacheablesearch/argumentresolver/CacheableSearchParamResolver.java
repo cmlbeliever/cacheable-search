@@ -152,7 +152,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		if (StringUtils.hasText(defaultConfig.getCacheImplRef())) {
 			defaultSearchCacheManager = beanFactory.getBean(defaultConfig.getCacheImplRef(), ISearchCache.class);
 		} else {
-			defaultSearchCacheManager = beanFactory.getBean(EnableSearchCacheAutoConfiguration.DEFAULT_SEARCCH_CACHE_REF, ISearchCache.class);
+			defaultSearchCacheManager = beanFactory.getBean(EnableSearchCacheAutoConfiguration.DEFAULT_SEARCH_CACHE_REF, ISearchCache.class);
 		}
 
 		Assert.notNull(defaultSearchCacheManager, "searchCacheManager must not be null!!!");

@@ -17,7 +17,7 @@ import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter {
 
 	public static final String DEFAULT_KEY_GENERATE_REF = "defaultUUIDKeyGenerator";
-	public static final String DEFAULT_SEARCCH_CACHE_REF = "defaultISearchCache";
+	public static final String DEFAULT_SEARCH_CACHE_REF = "defaultISearchCache";
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -35,7 +35,7 @@ public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter 
 		return new UUIDKeyGenerator();
 	}
 
-	@Bean(name = DEFAULT_SEARCCH_CACHE_REF)
+	@Bean(name = DEFAULT_SEARCH_CACHE_REF)
 	public SessionSearchCache sessionSearchCache() {
 		return new SessionSearchCache();
 	}
