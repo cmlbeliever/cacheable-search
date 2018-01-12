@@ -3,6 +3,7 @@ package com.cml.learn.cacheablesearch.configuration;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.cml.learn.cacheablesearch.argumentresolver.CacheableSearchParamResolver;
 import com.cml.learn.cacheablesearch.cache.SessionSearchCache;
+import com.cml.learn.cacheablesearch.cache.listener.SessionCacheListener;
 import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 
 @Configuration
@@ -38,6 +40,20 @@ public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter 
 	@Bean(name = DEFAULT_SEARCH_CACHE_REF)
 	public SessionSearchCache sessionSearchCache() {
 		return new SessionSearchCache();
+	}
+
+	/**
+	 * 注册session开关监听
+	 * 
+	 * @param cache
+	 * @return
+	 */
+	@Bean
+	public ServletListenerRegistrationBean<SessionCacheListener> sessionListener() {
+		ServletListenerRegistrationBean<SessionCacheListener> listenerRegistration = new ServletListenerRegistrationBean<>();
+		listenerRegistration.setListener(new SessionCacheListener(sessionSearchCache()));
+		listenerRegistration.setEnabled(true);
+		return listenerRegistration;
 	}
 
 	@Component
