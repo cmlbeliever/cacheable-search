@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.cml.learn.cacheablesearch.cache.SessionSearchCache;
-import com.cml.learn.cacheablesearch.cache.SessionSearchCache.SessionCacheListener;
+import com.cml.learn.cacheablesearch.cache.listener.SessionCacheListener;
 import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
 
 @Configuration

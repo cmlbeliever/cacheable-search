@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -51,26 +49,6 @@ public class SessionSearchCache implements ISearchCache {
 	@Override
 	public void clear(String key) {
 		cacheContainer.remove(key);
-	}
-
-	public static class SessionCacheListener implements HttpSessionListener {
-
-		private SessionSearchCache sessionCache;
-
-		public SessionCacheListener(SessionSearchCache sessionCache) {
-			super();
-			this.sessionCache = sessionCache;
-		}
-
-		@Override
-		public void sessionCreated(HttpSessionEvent se) {
-		}
-
-		@Override
-		public void sessionDestroyed(HttpSessionEvent se) {
-			sessionCache.clear(se.getSession().getId());
-		}
-
 	}
 
 }
