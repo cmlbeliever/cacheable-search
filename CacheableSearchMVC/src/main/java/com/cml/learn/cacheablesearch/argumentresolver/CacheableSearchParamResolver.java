@@ -78,13 +78,16 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		// 缓存中没有数据,根据参数生成数据
 		Object value = resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
 
-		KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
+		if (null != value) {
+			KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
 
-		// 生成key
-		String key = keyGenerator.generateKey();
-		// 添加到缓存
-		searchCacheResolver.put(key, value);
-		webRequest.setAttribute(cacheTokenKey, key, NativeWebRequest.SCOPE_REQUEST);
+			// 生成key
+			String key = keyGenerator.generateKey();
+			// 添加到缓存
+			searchCacheResolver.put(key, value);
+			webRequest.setAttribute(cacheTokenKey, key, NativeWebRequest.SCOPE_REQUEST);
+		}
+
 		return value;
 	}
 
