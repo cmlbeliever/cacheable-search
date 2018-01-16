@@ -21,6 +21,9 @@ public class SessionSearchCache implements ISearchCache {
 
 	@Override
 	public void put(String key, Object value) {
+		if (null == value) {
+			return;
+		}
 		String sessionId = getSessionId();
 		Map<String, Object> cacheValue = cacheContainer.get(sessionId);
 		if (null == cacheValue) {

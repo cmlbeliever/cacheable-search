@@ -3,8 +3,10 @@ package com.cml.learn.cacheablesearch.argumentresolver;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
+
+import javax.xml.transform.Source;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -13,6 +15,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
+import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -45,6 +53,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	private BeanFactory beanFactory;
 
 	public CacheableSearchParamResolver() {
+		argumentResolvers.add(new CacheableSearchRequestBodyParamResolver(Arrays.asList(new MappingJackson2HttpMessageConverter())));
 		argumentResolvers.add(new ServletModelAttributeMethodProcessor(true));
 	}
 
@@ -78,13 +87,15 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		// 缓存中没有数据,根据参数生成数据
 		Object value = resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
 
-		KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
+		if (null != value) {
+			KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
+			// 生成key
+			String key = keyGenerator.generateKey();
+			// 添加到缓存
+			searchCacheResolver.put(key, value);
+			webRequest.setAttribute(cacheTokenKey, key, NativeWebRequest.SCOPE_REQUEST);
+		}
 
-		// 生成key
-		String key = keyGenerator.generateKey();
-		// 添加到缓存
-		searchCacheResolver.put(key, value);
-		webRequest.setAttribute(cacheTokenKey, key, NativeWebRequest.SCOPE_REQUEST);
 		return value;
 	}
 

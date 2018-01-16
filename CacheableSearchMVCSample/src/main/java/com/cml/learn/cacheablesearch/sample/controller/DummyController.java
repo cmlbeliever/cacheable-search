@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cml.learn.cacheablesearch.annotation.SearchCache;
+import com.cml.learn.cacheablesearch.annotation.SearchCache.RequestType;
 import com.cml.learn.cacheablesearch.sample.model.User;
 
 @Controller
@@ -13,6 +14,12 @@ public class DummyController {
 
 	@RequestMapping("/list")
 	public String testPage(Model model, @SearchCache() User u) {
+		model.addAttribute("searchParam", u);
+		return "user-list";
+	}
+
+	@RequestMapping("/list2")
+	public String testPage2(Model model, @SearchCache(requestType = RequestType.RequestBody) User u) {
 		model.addAttribute("searchParam", u);
 		return "user-list";
 	}
