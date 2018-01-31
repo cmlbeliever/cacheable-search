@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.annotation;
+package com.github.cmlbeliever.cacheablesearch.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cml.learn.cacheablesearch.annotation.SearchCache;
 import com.cml.learn.cacheablesearch.sample.model.User;
+import com.github.cmlbeliever.cacheablesearch.annotation.SearchCache;
 
 @Controller
 @RequestMapping("/user")

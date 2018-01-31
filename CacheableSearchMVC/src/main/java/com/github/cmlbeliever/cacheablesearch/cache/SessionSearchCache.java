@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.cache;
+package com.github.cmlbeliever.cacheablesearch.cache;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

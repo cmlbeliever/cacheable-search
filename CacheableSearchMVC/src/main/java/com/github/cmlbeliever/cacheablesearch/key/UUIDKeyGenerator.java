@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.key;
+package com.github.cmlbeliever.cacheablesearch.key;
 
 import java.util.UUID;
 

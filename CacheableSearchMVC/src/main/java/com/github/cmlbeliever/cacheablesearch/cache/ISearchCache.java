@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.cache;
+package com.github.cmlbeliever.cacheablesearch.cache;
 
 public interface ISearchCache {
 	/**

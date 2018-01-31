@@ -22,7 +22,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.cml.learn</groupId>
+			<groupId>com.github.cmlbeliever</groupId>
 			<artifactId>cacheable-search-mvc</artifactId>
 			<version>1.0</version>
 		</dependency>

@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.argumentresolver;
+package com.github.cmlbeliever.cacheablesearch.argumentresolver;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -22,11 +22,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
-import com.cml.learn.cacheablesearch.annotation.SearchCache;
-import com.cml.learn.cacheablesearch.cache.ISearchCache;
-import com.cml.learn.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration;
-import com.cml.learn.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration.SearchCacheProperties;
-import com.cml.learn.cacheablesearch.key.KeyGenerator;
+import com.github.cmlbeliever.cacheablesearch.annotation.SearchCache;
+import com.github.cmlbeliever.cacheablesearch.cache.ISearchCache;
+import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration;
+import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration.SearchCacheProperties;
+import com.github.cmlbeliever.cacheablesearch.key.KeyGenerator;
 
 public class CacheableSearchParamResolver implements HandlerMethodArgumentResolver, BeanFactoryAware, InitializingBean {
 

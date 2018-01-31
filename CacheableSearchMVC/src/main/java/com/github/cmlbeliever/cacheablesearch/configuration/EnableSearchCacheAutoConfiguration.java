@@ -1,4 +1,4 @@
-package com.cml.learn.cacheablesearch.configuration;
+package com.github.cmlbeliever.cacheablesearch.configuration;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.cml.learn.cacheablesearch.argumentresolver.CacheableSearchParamResolver;
-import com.cml.learn.cacheablesearch.cache.SessionSearchCache;
-import com.cml.learn.cacheablesearch.cache.listener.SessionCacheListener;
-import com.cml.learn.cacheablesearch.key.UUIDKeyGenerator;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.CacheableSearchParamResolver;
+import com.github.cmlbeliever.cacheablesearch.cache.SessionSearchCache;
+import com.github.cmlbeliever.cacheablesearch.cache.listener.SessionCacheListener;
+import com.github.cmlbeliever.cacheablesearch.key.UUIDKeyGenerator;
 
 @Configuration
 public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter {
