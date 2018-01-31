@@ -45,8 +45,7 @@ public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter 
 	/**
 	 * 注册session开关监听
 	 * 
-	 * @param cache
-	 * @return
+	 * @return session监听器
 	 */
 	@Bean
 	public ServletListenerRegistrationBean<SessionCacheListener> sessionListener() {

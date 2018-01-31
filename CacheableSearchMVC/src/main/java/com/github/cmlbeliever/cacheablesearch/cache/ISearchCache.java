@@ -4,8 +4,8 @@ public interface ISearchCache {
 	/**
 	 * 添加如缓存
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key 缓存key(not null)
+	 * @param value 缓存值(not null)
 	 */
 	void put(String key, Object value);
 
