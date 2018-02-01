@@ -15,7 +15,6 @@ import com.github.cmlbeliever.cacheablesearch.cache.SessionSearchCache;
 import com.github.cmlbeliever.cacheablesearch.cache.listener.SessionCacheListener;
 import com.github.cmlbeliever.cacheablesearch.key.UUIDKeyGenerator;
 
-@Configuration
 public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter {
 
 	public static final String DEFAULT_KEY_GENERATE_REF = "defaultUUIDKeyGenerator";

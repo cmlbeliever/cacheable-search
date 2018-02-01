@@ -2,7 +2,18 @@
 参数缓存框架，将页面跳转需要的参数缓存后方便后续使用。
 具体的项目演进与分析过程，详见gitchat：**http://gitbook.cn/gitchat/activity/5a52d334ebd9cc598adf1258**
 
-## 使用教程 ##
+## 如何使用？
+
+``` stylus
+	<dependency>
+		<groupId>com.github.cmlbeliever</groupId>
+		<artifactId>cacheable-search-mvc</artifactId>
+		<version>1.1</version>
+	</dependency>
+```
+
+
+## Sample使用教程 ##
 - 进入CacheableSearchMVCSample工程
 - 执行SearchCacheMVCApplication
 - 等待启动完成
@@ -31,3 +42,6 @@
 
 ## BUG、意见、反馈 ##
 如果您在使用中有任何的bug或意见，可以在项目添加issue或者在gitchat添加评论，我会及时对项目及时修正，**持续维护中...**
+
+### TODO
+支持application/json格式访问，将会在版本1.2中发布
