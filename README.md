@@ -8,7 +8,7 @@
 	<dependency>
 		<groupId>com.github.cmlbeliever</groupId>
 		<artifactId>cacheable-search-mvc</artifactId>
-		<version>1.0</version>
+		<version>lastVersion</version>
 	</dependency>
 ```
 
@@ -42,6 +42,16 @@
 
 ## BUG、意见、反馈 ##
 如果您在使用中有任何的bug或意见，可以在项目添加issue或者在gitchat添加评论，我会及时对项目及时修正，**持续维护中...**
+
+## 版本记录 ##
+
+1.1
+
+> 去除lib中无用的依赖，将dependency的scope修改为provided
+
+1.0
+
+>初始化版本 
 
 ### TODO
 支持application/json格式访问，将会在版本1.2中发布
