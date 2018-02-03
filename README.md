@@ -72,4 +72,4 @@
 支持application/json格式访问，将会在版本1.2中发布
 
 
-  [1]: ./images/cache.png "cache.png"
+  [1]: ./snapshot/cache.png "cache.png"
