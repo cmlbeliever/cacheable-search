@@ -15,7 +15,7 @@
 	</dependency>
 ```
 
- 1. 在Controller中添加注解：@SearchCache
+ 2. 在Controller中添加注解：@SearchCache
 
 ``` stylus
  @RequestMapping("/list")
