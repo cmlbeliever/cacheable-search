@@ -1,16 +1,30 @@
+
 # cacheable-search
 参数缓存框架，将页面跳转需要的参数缓存后方便后续使用。
 具体的项目演进与分析过程，详见gitchat：**http://gitbook.cn/gitchat/activity/5a52d334ebd9cc598adf1258**
 
 ## 如何使用？
 
+ 1. 添加依赖：
+
 ``` stylus
 	<dependency>
 		<groupId>com.github.cmlbeliever</groupId>
 		<artifactId>cacheable-search-mvc</artifactId>
-		<version>lastVersion</version>
+		<version>1.0</version>
 	</dependency>
 ```
+
+ 1. 在Controller中添加注解：@SearchCache
+
+``` stylus
+ @RequestMapping("/list")
+    public String userList(Model model, @SearchCache() User u) {
+        model.addAttribute("searchParam", u);
+        return "user-list";
+    }
+```
+
 
 
 ## Sample使用教程 ##
@@ -42,16 +56,6 @@
 
 ## BUG、意见、反馈 ##
 如果您在使用中有任何的bug或意见，可以在项目添加issue或者在gitchat添加评论，我会及时对项目及时修正，**持续维护中...**
-
-## 版本记录 ##
-
-1.1
-
-> 去除lib中无用的依赖，将dependency的scope修改为provided
-
-1.0
-
->初始化版本 
 
 ### TODO
 支持application/json格式访问，将会在版本1.2中发布
