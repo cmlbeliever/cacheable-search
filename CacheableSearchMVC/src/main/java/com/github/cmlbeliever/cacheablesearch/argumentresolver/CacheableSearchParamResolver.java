@@ -3,8 +3,8 @@ package com.github.cmlbeliever.cacheablesearch.argumentresolver;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -45,6 +46,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	private BeanFactory beanFactory;
 
 	public CacheableSearchParamResolver() {
+		argumentResolvers.add(new CacheableSearchRequestBodyParamResolver(Arrays.asList(new MappingJackson2HttpMessageConverter())));
 		argumentResolvers.add(new ServletModelAttributeMethodProcessor(true));
 	}
 

@@ -29,7 +29,25 @@ public @interface SearchCache {
 	/**
 	 * 请求key,默认为cacheToken
 	 * 
-	 * @return 缓存key
+	 * @return
 	 */
 	String value() default "";
+
+	/**
+	 * 请求的方式
+	 * 
+	 * @return
+	 */
+	RequestType requestType() default RequestType.Form;
+
+	enum RequestType {
+		/**
+		 * 使用body的方式，同@RequestBody功能一致
+		 */
+		RequestBody,
+		/**
+		 * 普通的表单提交
+		 */
+		Form;
+	}
 }
