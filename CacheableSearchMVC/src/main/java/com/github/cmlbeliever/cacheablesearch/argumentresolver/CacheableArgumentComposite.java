@@ -11,6 +11,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class CacheableArgumentComposite {
 	private List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
+	
+	public CacheableArgumentComposite() {
+		System.out.println("===========================");
+	}
 
 	public CacheableArgumentComposite addArgumentResolver(HandlerMethodArgumentResolver resolver) {
 		argumentResolvers.add(resolver);

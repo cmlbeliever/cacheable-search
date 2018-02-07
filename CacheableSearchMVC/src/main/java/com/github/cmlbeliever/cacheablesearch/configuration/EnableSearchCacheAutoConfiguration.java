@@ -2,6 +2,7 @@ package com.github.cmlbeliever.cacheablesearch.configuration;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +20,13 @@ public class EnableSearchCacheAutoConfiguration extends WebMvcConfigurerAdapter 
 
 	public static final String DEFAULT_KEY_GENERATE_REF = "defaultUUIDKeyGenerator";
 	public static final String DEFAULT_SEARCH_CACHE_REF = "defaultISearchCache";
+	
+	@Autowired
+	private CacheableSearchParamResolver cacheableSearchParamResolver;
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(argumentResolver());
+		argumentResolvers.add(cacheableSearchParamResolver);
 		super.addArgumentResolvers(argumentResolvers);
 	}
 
