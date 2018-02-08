@@ -31,7 +31,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [age=" + age + ", name=" + name + "]";
+		return "User [age=" + age + ", name=" + name + ", cacheToken=" + cacheToken + "]";
 	}
 
 }

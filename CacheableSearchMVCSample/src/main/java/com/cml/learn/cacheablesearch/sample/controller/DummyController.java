@@ -1,8 +1,11 @@
 package com.cml.learn.cacheablesearch.sample.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cml.learn.cacheablesearch.sample.model.User;
 import com.github.cmlbeliever.cacheablesearch.annotation.SearchCache;
@@ -18,20 +21,19 @@ public class DummyController {
 		return "user-list";
 	}
 
+	@ResponseBody
 	@RequestMapping("/list2")
-	public String testPage2(Model model, @SearchCache() User u) {
-		model.addAttribute("searchParam", u);
-		return "user-list";
+	public User testPage2(HttpServletRequest req, @SearchCache() User u) {
+		if (null != u) {
+			u.setCacheToken(String.valueOf(req.getAttribute("cacheToken")));
+		}
+		return u;
 	}
 
-	// @ResponseBody
-	// @RequestMapping("/list")
-	// public UserListQueryParam getUserList(UserListQueryParam param,
-	// HttpServletRequest req) {
-	// // 参数useCache为true时，表示需要使用缓存数据
-	// param = QueryParamCacheStoreUtil.retrieveCacheIfNeed(req,
-	// req.getRequestURI().toString(), param);
-	//
-	// return param;
-	// }
+	@ResponseBody
+	@RequestMapping("/name")
+	public String testSingleArg(HttpServletRequest req, @SearchCache String name) {
+		return name + ",cacheToken:" + req.getAttribute("cacheToken");
+	}
+
 }
