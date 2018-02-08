@@ -3,6 +3,15 @@ package com.cml.learn.cacheablesearch.sample.model;
 public class User {
 	private int age;
 	private String name;
+	private String cacheToken;
+
+	public String getCacheToken() {
+		return cacheToken;
+	}
+
+	public void setCacheToken(String cacheToken) {
+		this.cacheToken = cacheToken;
+	}
 
 	public String getName() {
 		return name;

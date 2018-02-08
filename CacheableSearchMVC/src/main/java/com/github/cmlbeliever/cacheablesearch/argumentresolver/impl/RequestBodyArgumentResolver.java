@@ -33,10 +33,9 @@ public class RequestBodyArgumentResolver extends AbstractMessageConverterMethodP
 		super(converters);
 	}
 
-	@Deprecated
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return false;
+		return true;
 	}
 
 	@Deprecated
@@ -89,14 +88,20 @@ public class RequestBodyArgumentResolver extends AbstractMessageConverterMethodP
 
 	@Override
 	public String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey, Object argumentValue) {
+		if (argumentValue == null) {
+			return null;
+		}
 		Field cacheTokenProperty = ReflectionUtils.findField(argumentValue.getClass(), cacheTokenKey, String.class);
 		if (null != cacheTokenProperty) {
 			try {
-				return (String) cacheTokenProperty.get(argumentValue);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				cacheTokenProperty.setAccessible(true);
+				String token = (String) cacheTokenProperty.get(argumentValue);
+				if (StringUtils.isEmpty(token)) {
+					return webRequest.getHeader(cacheTokenKey);
+				}
+				return token;
+			} catch (Exception e) {
+				throw new IllegalArgumentException("can not find field[" + cacheTokenKey + "]");
 			}
 		}
 		return null;

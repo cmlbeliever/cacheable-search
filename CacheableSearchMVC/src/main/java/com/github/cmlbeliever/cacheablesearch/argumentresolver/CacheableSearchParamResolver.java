@@ -4,8 +4,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -26,8 +24,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttribu
 import com.github.cmlbeliever.cacheablesearch.annotation.SearchCache;
 import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.ArgumentHandleHolder;
 import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.ArgumentResolverWrapper;
-import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.RequestBodyArgumentResolver;
 import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.FormArgumentResolver;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.RequestBodyArgumentResolver;
 import com.github.cmlbeliever.cacheablesearch.cache.ISearchCache;
 import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration;
 import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration.SearchCacheProperties;
@@ -55,9 +53,6 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
 
-		HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
-
-		System.out.println(webRequest.getHeader("Content-Type") + "," + req.getMethod());
 		// 获取参数的注解配置
 		SearchCache cacheConfig = retrieveSearchCache(parameter);
 		// 缓存的参数字段
