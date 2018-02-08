@@ -29,7 +29,7 @@ public @interface SearchCache {
 	/**
 	 * 请求key,默认为cacheToken
 	 * 
-	 * @return
+	 * @return 请求key,默认为"cacheToken"
 	 */
 	String value() default "";
 
