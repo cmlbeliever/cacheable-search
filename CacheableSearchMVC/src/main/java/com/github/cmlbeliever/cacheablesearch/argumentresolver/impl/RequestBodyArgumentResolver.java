@@ -1,6 +1,5 @@
 package com.github.cmlbeliever.cacheablesearch.argumentresolver.impl;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +8,6 @@ import org.springframework.core.Conventions;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -87,24 +85,25 @@ public class RequestBodyArgumentResolver extends AbstractMessageConverterMethodP
 	}
 
 	@Override
-	public String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey, Object argumentValue) {
-		if (argumentValue == null) {
-			return null;
-		}
-		Field cacheTokenProperty = ReflectionUtils.findField(argumentValue.getClass(), cacheTokenKey, String.class);
-		if (null != cacheTokenProperty) {
-			try {
-				cacheTokenProperty.setAccessible(true);
-				String token = (String) cacheTokenProperty.get(argumentValue);
-				if (StringUtils.isEmpty(token)) {
-					return webRequest.getHeader(cacheTokenKey);
-				}
-				return token;
-			} catch (Exception e) {
-				throw new IllegalArgumentException("can not find field[" + cacheTokenKey + "]");
-			}
-		}
-		return null;
+	public String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey) {
+		return webRequest.getHeader(cacheTokenKey);
+		// Field cacheTokenProperty =
+		// ReflectionUtils.findField(argumentValue.getClass(), cacheTokenKey,
+		// String.class);
+		// if (null != cacheTokenProperty) {
+		// try {
+		// cacheTokenProperty.setAccessible(true);
+		// String token = (String) cacheTokenProperty.get(argumentValue);
+		// if (StringUtils.isEmpty(token)) {
+		// return webRequest.getHeader(cacheTokenKey);
+		// }
+		// return token;
+		// } catch (Exception e) {
+		// throw new IllegalArgumentException("can not find field[" +
+		// cacheTokenKey + "]");
+		// }
+		// }
+//		return null;
 	}
 
 }

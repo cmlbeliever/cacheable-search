@@ -33,9 +33,15 @@ public class CacheableArgumentComposite {
 		ArgumentHandleHolder holder = new ArgumentHandleHolder();
 		for (CacheableArgumentResolver resolver : argumentResolvers) {
 			if (resolver.support(webRequest, parameter)) {
-				Object argumentValue = resolver.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
-				holder.setArgumentValue(argumentValue);
-				holder.setCacheToken(resolver.getCacheToken(webRequest, cacheTokenKey, argumentValue));
+				String cacheToken = resolver.getCacheToken(webRequest, cacheTokenKey);
+				holder.setCacheToken(cacheToken);
+				//有cacheToken表明使用的是缓存数据，不需要解析参数
+				if (null != cacheToken) {
+					return holder;
+				}else {
+					Object argumentValue = resolver.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
+					holder.setArgumentValue(argumentValue);
+				}
 				return holder;
 			}
 		}

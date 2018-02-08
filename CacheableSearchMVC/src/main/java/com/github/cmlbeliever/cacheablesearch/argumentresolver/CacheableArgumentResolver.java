@@ -44,5 +44,5 @@ public interface CacheableArgumentResolver {
 	 * @param argumentValue
 	 * @return cacheToken
 	 */
-	String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey, Object argumentValue);
+	String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey);
 }

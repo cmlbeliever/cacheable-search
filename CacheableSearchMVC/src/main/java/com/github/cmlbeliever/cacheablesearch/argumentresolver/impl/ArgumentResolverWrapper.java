@@ -35,7 +35,7 @@ public class ArgumentResolverWrapper implements CacheableArgumentResolver {
 	}
 
 	@Override
-	public String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey, Object argumentValue) {
+	public String getCacheToken(NativeWebRequest webRequest, String cacheTokenKey) {
 		return webRequest.getParameter(cacheTokenKey);
 	}
 
