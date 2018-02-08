@@ -40,6 +40,13 @@ public @interface SearchCache {
 	 */
 	RequestType requestType() default RequestType.Form;
 
+	/**
+	 * 版本1.2中已经无效，请勿使用
+	 * 
+	 * @author cml
+	 *
+	 */
+	@Deprecated
 	enum RequestType {
 		/**
 		 * 使用body的方式，同@RequestBody功能一致

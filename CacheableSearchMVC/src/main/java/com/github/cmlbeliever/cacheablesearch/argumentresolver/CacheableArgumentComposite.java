@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-public class CacheableArgumentComposite {
-	private List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
-	
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.ArgumentHandleHolder;
 
-	public CacheableArgumentComposite addArgumentResolver(HandlerMethodArgumentResolver resolver) {
+public class CacheableArgumentComposite {
+	private List<CacheableArgumentResolver> argumentResolvers = new ArrayList<>();
+
+	public CacheableArgumentComposite addArgumentResolver(CacheableArgumentResolver resolver) {
 		argumentResolvers.add(resolver);
 		return this;
 	}
@@ -28,11 +28,15 @@ public class CacheableArgumentComposite {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object resolveRequestArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
-			WebDataBinderFactory binderFactory) throws Exception {
-		for (HandlerMethodArgumentResolver resolver : argumentResolvers) {
-			if (resolver.supportsParameter(parameter)) {
-				return resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+	public ArgumentHandleHolder resolveRequestArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
+			WebDataBinderFactory binderFactory, String cacheTokenKey) throws Exception {
+		ArgumentHandleHolder holder = new ArgumentHandleHolder();
+		for (CacheableArgumentResolver resolver : argumentResolvers) {
+			if (resolver.support(webRequest, parameter)) {
+				Object argumentValue = resolver.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
+				holder.setArgumentValue(argumentValue);
+				holder.setCacheToken(resolver.getCacheToken(webRequest, cacheTokenKey, argumentValue));
+				return holder;
 			}
 		}
 		return null;

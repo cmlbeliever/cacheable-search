@@ -1,7 +1,6 @@
 package com.github.cmlbeliever.cacheablesearch.argumentresolver;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.Assert;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -26,6 +24,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
 import com.github.cmlbeliever.cacheablesearch.annotation.SearchCache;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.ArgumentHandleHolder;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.ArgumentResolverWrapper;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.RequestBodyArgumentResolver;
+import com.github.cmlbeliever.cacheablesearch.argumentresolver.impl.FormArgumentResolver;
 import com.github.cmlbeliever.cacheablesearch.cache.ISearchCache;
 import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration;
 import com.github.cmlbeliever.cacheablesearch.configuration.EnableSearchCacheAutoConfiguration.SearchCacheProperties;
@@ -61,23 +63,19 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		// 缓存的参数字段
 		String cacheTokenKey = getCacheTokenKey(cacheConfig);
 
-		String cacheToken = webRequest.getParameter(cacheTokenKey);
+		// 处理请求参数和请求key
+		ArgumentHandleHolder valueHolder = argumentResolverComposite.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory,
+				cacheTokenKey);
 
-		// 缓存中没有数据,根据参数生成数据
-		Object value = argumentResolverComposite.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
-		// if(StringUtils.isEmpty(cacheToken)) {
-		// Field cacheTokenProperty =
-		// ReflectionUtils.findField(value.getClass(), cacheTokenKey,
-		// String.class);
-		// if (null != cacheTokenProperty) {
-		//
-		// }
-		// }
+		if (null == valueHolder) {
+			return null;
+		}
 
+		String cacheToken = valueHolder.getCacheToken();
 		ISearchCache searchCacheResolver = getSearchCache(cacheConfig);
 
+		// 有cacheToken，从缓存中获取数据
 		if (null != cacheToken) {
-
 			Object cacheValue = searchCacheResolver.get(cacheToken);
 			// 有缓存，从缓存中获取数据
 			if (null != cacheValue) {
@@ -85,6 +83,8 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 				return cacheValue;
 			}
 		}
+
+		Object value = valueHolder.getArgumentValue();
 
 		if (null != value) {
 			KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
@@ -135,7 +135,8 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
-		argumentResolverComposite.addArgumentResolver(new RequestParamMethodArgumentResolver((ConfigurableBeanFactory) beanFactory, true));
+		argumentResolverComposite
+				.addArgumentResolver(new FormArgumentResolver(new RequestParamMethodArgumentResolver((ConfigurableBeanFactory) beanFactory, true)));
 	}
 
 	@Override
@@ -167,9 +168,8 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	 * 添加默认的参数处理
 	 */
 	private void addDefaultArgumentResolver() {
-		argumentResolverComposite
-				.addArgumentResolver(new CacheableSearchRequestBodyParamResolver(Arrays.asList(new MappingJackson2HttpMessageConverter())));
-		argumentResolverComposite.addArgumentResolver(new ServletModelAttributeMethodProcessor(true));
+		argumentResolverComposite.addArgumentResolver(new RequestBodyArgumentResolver(Arrays.asList(new MappingJackson2HttpMessageConverter())));
+		argumentResolverComposite.addArgumentResolver(new FormArgumentResolver(new ServletModelAttributeMethodProcessor(true)));
 	}
 
 	/**
@@ -182,8 +182,15 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 				if (StringUtils.isEmpty(resolverRef)) {
 					throw new IllegalArgumentException("custom argumentResovlerRef can not be empty!!!");
 				}
-				HandlerMethodArgumentResolver resolver = beanFactory.getBean(resolverRef, HandlerMethodArgumentResolver.class);
-				argumentResolverComposite.addArgumentResolver(resolver);
+				Object resolver = beanFactory.getBean(resolverRef);
+				if (resolver instanceof CacheableArgumentResolver) {
+					argumentResolverComposite.addArgumentResolver((CacheableArgumentResolver) resolver);
+				} else if (resolver instanceof HandlerMethodArgumentResolver) {
+					argumentResolverComposite.addArgumentResolver(new ArgumentResolverWrapper((HandlerMethodArgumentResolver) resolver));
+				} else {
+					throw new IllegalArgumentException("resolver must be type of CacheableArgumentResolver or HandlerMethodArgumentResolver");
+				}
+
 			}
 		}
 	}
