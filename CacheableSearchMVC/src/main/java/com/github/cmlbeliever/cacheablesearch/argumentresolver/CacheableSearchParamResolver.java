@@ -1,8 +1,11 @@
 package com.github.cmlbeliever.cacheablesearch.argumentresolver;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.Assert;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -49,12 +53,27 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
 
+		HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
+
+		System.out.println(webRequest.getHeader("Content-Type") + "," + req.getMethod());
 		// 获取参数的注解配置
 		SearchCache cacheConfig = retrieveSearchCache(parameter);
 		// 缓存的参数字段
 		String cacheTokenKey = getCacheTokenKey(cacheConfig);
 
 		String cacheToken = webRequest.getParameter(cacheTokenKey);
+
+		// 缓存中没有数据,根据参数生成数据
+		Object value = argumentResolverComposite.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
+		// if(StringUtils.isEmpty(cacheToken)) {
+		// Field cacheTokenProperty =
+		// ReflectionUtils.findField(value.getClass(), cacheTokenKey,
+		// String.class);
+		// if (null != cacheTokenProperty) {
+		//
+		// }
+		// }
+
 		ISearchCache searchCacheResolver = getSearchCache(cacheConfig);
 
 		if (null != cacheToken) {
@@ -66,9 +85,6 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 				return cacheValue;
 			}
 		}
-
-		// 缓存中没有数据,根据参数生成数据
-		Object value = argumentResolverComposite.resolveRequestArgument(parameter, mavContainer, webRequest, binderFactory);
 
 		if (null != value) {
 			KeyGenerator keyGenerator = getKeyGenerate(cacheConfig);
