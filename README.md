@@ -59,17 +59,19 @@
 
 
 ``` stylus
-    //自定义缓存实现类的配置
-    search-cache.cacheImplRef= 
 
+	//自定义缓存实现类的配置
+	search-cache.cacheImplRef= 
+	
 	//自定义key生成策略的配置
 	search-cache.keyGeneratorRef=
-
-    //参数key定义，默认为cacheToken
+	
+	//参数key定义，默认为cacheToken
 	search-cache.cacheToken=myToken
-
-    //自定义参数解析，支持CacheableArgumentResolver和HandlerMethodArgumentResolver两种类型
+	
+	//自定义参数解析，支持CacheableArgumentResolver和HandlerMethodArgumentResolver两种类型
 	search-cache.argumentResolvers=
+
 ```
     
 
