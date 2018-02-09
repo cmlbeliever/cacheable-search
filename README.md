@@ -57,14 +57,22 @@
 
 - 支持的配置
 
-	//自定义缓存实现类的配置
+
+``` stylus
+    //自定义缓存实现类的配置
     search-cache.cacheImplRef= 
+
 	//自定义key生成策略的配置
 	search-cache.keyGeneratorRef=
+
     //参数key定义，默认为cacheToken
 	search-cache.cacheToken=myToken
+
     //自定义参数解析，支持CacheableArgumentResolver和HandlerMethodArgumentResolver两种类型
 	search-cache.argumentResolvers=
+```
+    
+
 
 
 - **注意：application/json 请求方式时，cacheToken需要放到header中传入，其他请求方式可以直接在参数中传入cacheToken**
