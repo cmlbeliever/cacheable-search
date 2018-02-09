@@ -52,6 +52,7 @@
     可以从HttpServletRequest中直接获取到cacheToken，如：
     request.getAttribute("cacheToken")
 
+- **注意：application/json 请求方式时，cacheToken需要放到header中传入，其他请求方式可以直接在参数中传入cacheToken**
  
 
 ## Sample使用教程 ##
