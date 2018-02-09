@@ -6,7 +6,7 @@
 
 比如在用户查询页面，可以根据用户的年龄，姓名，昵称，等等参数进行查询，而且可能客户已经翻到了第n页上，此时点击某个用户详细，页面跳转到用户详细页面对用户信息进行编辑，编辑完成后点击保存，这时候需要返回到用户查询页面上，并且还得回到用户原来页面。
 
-可以拆分成如下流程：
+基本流程：
 ![流程图][1]
 
 ## 具体的项目演进与分析过程，详见：
@@ -14,29 +14,45 @@
  - gitchat：**http://gitbook.cn/gitchat/activity/5a52d334ebd9cc598adf1258**
  - 博客说明：http://blog.csdn.net/cml_blog/article/details/78928693
 
+
+
+# 使用场景 #
+
+- **需要在跳转其他页面后，返回当前页面还需要参数保持的情况**
+- **新增数据需要跳转到预览或确认页面的情况**
+- **需要缓存参数的情况**
+
+
+ 
 ## 如何使用？
 
- 1. 添加依赖：
+ - 添加依赖：
 
 ``` stylus
 	<dependency>
 		<groupId>com.github.cmlbeliever</groupId>
 		<artifactId>cacheable-search-mvc</artifactId>
-		<version>1.1</version>
+		<version>:lastVersion</version>
 	</dependency>
 ```
 
- 2. 在Controller中添加注解：@SearchCache
+最新从maven仓库获取：http://search.maven.org/#search%7Cga%7C1%7Ccmlbeliever
+
+ - 在Controller中添加注解：@SearchCache
 
 ``` stylus
  @RequestMapping("/list")
     public String userList(Model model, @SearchCache() User u) {
-        model.addAttribute("searchParam", u);
         return "user-list";
     }
 ```
 
+ - 获取cacheToken
 
+    可以从HttpServletRequest中直接获取到cacheToken，如：
+    request.getAttribute("cacheToken")
+
+ 
 
 ## Sample使用教程 ##
 - 进入CacheableSearchMVCSample工程
@@ -70,6 +86,10 @@
 
 ## 版本记录 ##
 
+- 2.0
+
+> 添加支持application/json（同@RequestBody）方式请求
+
 - 1.1
 
 > 去除lib中无用的依赖，将dependency的scope修改为provided
@@ -78,11 +98,6 @@
 
 >初始化版本 
 
-### TODO
-支持application/json格式访问，将会在版本1.2中发布
-
-### TODO
-支持application/json格式访问，将会在版本1.2中发布
 
 
   [1]: ./snapshot/cache.png "cache.png"
