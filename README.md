@@ -23,7 +23,7 @@
 - **需要缓存参数的情况**
 - 支持的请求方式
 
-> GET，表单，application/json格式请求
+> GET，POST中支持：application/json，application/x-www-form-urlencoded（表单提交）
 
 
  
