@@ -112,7 +112,7 @@
 
 ## 版本记录 ##
 
-- 2.1
+- 2.1.1
 
 > cacheToken添加空串校验，修复SpringBoot自动引入bug
 
