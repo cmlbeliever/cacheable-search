@@ -70,7 +70,7 @@ public class CacheableSearchParamResolver implements HandlerMethodArgumentResolv
 		ISearchCache searchCacheResolver = getSearchCache(cacheConfig);
 
 		// 有cacheToken，从缓存中获取数据
-		if (null != cacheToken) {
+		if (!StringUtils.isEmpty(cacheToken)) {
 			Object cacheValue = searchCacheResolver.get(cacheToken);
 			// 有缓存，从缓存中获取数据
 			if (null != cacheValue) {
