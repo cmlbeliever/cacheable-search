@@ -112,6 +112,10 @@
 
 ## 版本记录 ##
 
+- 2.1
+
+> cache添加空串校验，修复SpringBoot自动引入bug
+
 - 2.0
 
 > 添加支持application/json（同@RequestBody）方式请求
