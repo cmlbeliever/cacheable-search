@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cmlbeliever</groupId>
 	<artifactId>cacheable-search-mvc</artifactId>
-	<version>2.1</version>
+	<version>2.2</version>
 
 
 	<properties>
@@ -101,7 +101,6 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		<sourceDirectory>src/main/resources</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
