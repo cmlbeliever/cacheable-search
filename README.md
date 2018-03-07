@@ -114,7 +114,7 @@
 
 - 2.1
 
-> cache添加空串校验，修复SpringBoot自动引入bug
+> cacheToken添加空串校验，修复SpringBoot自动引入bug
 
 - 2.0
 
